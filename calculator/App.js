@@ -3,14 +3,34 @@ import { Platform, StyleSheet, Text, SafeAreaView, View } from 'react-native'
 import Button from './src/components/Button'
 import Display from './src/components/Display'
 
-export default class App extends Component {
+const initialState = {
+  displayValue: '0',
+  clearDisplay: false,
+  operation: null,
+  values: [0, 0],
+  current: 0,
+}
 
-  state = {
-    displayValue: '0'
-  }
+export default class App extends Component {
+  // ... pega todos os atributos. state é um clone de initialState
+  state = {...initialState}
 
   addDigit = n => {
-    this.setState({ displayValue: n })
+    if (n === '.' && this.state.displayValue.includes('.')) {
+      return // faz nada
+    }
+
+    const clearDisplay = this.state.displayValue === '0'
+      || this.state.clearDisplay
+    const currentValue = clearDisplay ? '' : this.state.displayValue
+    const displayValue = currentValue + n // concatena, são strings
+    this.setState({ displayValue, clearDisplay: false })
+
+    if (n !== '.') {
+      const newValue = parseFloat(displayValue)
+      const values = [...this.state.values]
+      values[this.state.current] = newValue
+    }
   }
 
   clearMemory = () => {
