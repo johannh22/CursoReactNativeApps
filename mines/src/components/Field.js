@@ -1,15 +1,28 @@
 import React from 'react'
-import { View, StyleSheet } from 'react-native'
+import { Text, View, StyleSheet } from 'react-native'
 import params from '../params'
 
 export default props => {
+    const { mined, open, nearMines } = props
+
     const styleField = [styles.field]
-    // outros estilos aqui!
+    if (open) styleField.push(styles.open)
     if (styleField.length === 1) styleField.push(styles.regular)
+
+    let color = null
+    if (nearMines > 0) {
+        if (nearMines == 1) color = '#2A28D7'
+        if (nearMines == 2) color = '#2B520F'
+        if (nearMines > 2 && nearMines < 6) color = '#F9060A'
+        if (nearMines >= 6) color = '#F221A9'
+    }
 
     return (
         <View style={styleField}>
-
+            {!mined && open && nearMines > 0 ?
+                <Text style={[styles.label, { color: color }]}>
+                    {nearMines}
+                </Text> : false}
         </View>
     )
 }
@@ -21,10 +34,22 @@ const styles = StyleSheet.create({
         borderWidth: params.borderSize,
     },
     regular: {
+        borderWidth: 2,
         backgroundColor: '#999',
         borderLeftColor: '#CCC',
         borderTopColor: '#CCC',
         borderRightColor: '#333',
         borderBottomColor: '#333',
+    },
+    open: {
+        borderWidth: 2,
+        backgroundColor: '#999',
+        borderColor: '#777',
+        alignItems: 'center',
+        justifyContent: 'center',
+    },
+    label: {
+        fontWeight: 'bold',
+        fontSize: params.fontSize,
     }
 })
