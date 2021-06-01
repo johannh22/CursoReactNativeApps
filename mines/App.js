@@ -1,15 +1,11 @@
 import React, {Component} from 'react';
 import {
   SafeAreaView,
-  ScrollView,
-  StatusBar,
   StyleSheet,
   Text,
-  useColorScheme,
-  View,
-  Platform,
 } from 'react-native';
 import params from './src/params';
+import Field from './src/components/Field'; 
 
 export default class App extends Component {
   render() {
@@ -18,6 +14,7 @@ export default class App extends Component {
         <Text style={styles.welcome}>Iniciando o Mines!!!</Text>
         <Text style={styles.welcome}>Tamanho da grade:
            {params.getRowsAmount()}x{params.getColumnsAmount()}</Text>
+        <Field />
       </SafeAreaView>
     );
   }
