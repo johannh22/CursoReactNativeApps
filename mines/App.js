@@ -11,9 +11,9 @@ export default class App extends Component {
   render() {
     return (
       <SafeAreaView style={styles.container}>
-        <Text style={styles.welcome}>Iniciando o Mines!!!</Text>
-        <Text style={styles.welcome}>Tamanho da grade:
-           {params.getRowsAmount()}x{params.getColumnsAmount()}</Text>
+      <Text style={styles.welcome}>Iniciando o Mines!!!</Text>
+      <Text style={styles.welcome}>Tamanho da grade:
+         {params.getRowsAmount()}x{params.getColumnsAmount()}</Text>
         <Field />
         <Field open nearMines={1} />
         <Field open nearMines={2} />
@@ -22,10 +22,13 @@ export default class App extends Component {
         <Field mined />
         <Field mined open />
         <Field mined open exploded />
+        <Field flagged />
+        <Field flagged open />
       </SafeAreaView>
     );
   }
 }
+
 
 const styles = StyleSheet.create({
   container: {
