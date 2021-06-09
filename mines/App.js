@@ -1,29 +1,48 @@
 import React, { Component } from 'react';
 import {
+  Platform,
   SafeAreaView,
   StyleSheet,
   Text,
+  View,
 } from 'react-native';
 import params from './src/params';
-import Field from './src/components/Field';
+import MineField from './src/components/MineField';
+import {
+  createMinedBoard,
+} from './src/functions';
+import Mine from './src/components/Mine';
 
 export default class App extends Component {
+
+  constructor(props) {
+    super(props)
+    this.state = this.createState()
+  }
+
+  minesAmount = () => {
+    const cols = params.getColumnsAmount()
+    const rows = params.getRowsAmount()
+    return Math.ceil(cols * rows * params.difficultyLevel)
+  }
+
+  createState = () => {
+    const cols = params.getColumnsAmount()
+    const rows = params.getRowsAmount()
+    return {
+      board: createMinedBoard(rows, cols, this.minesAmount()),
+    }
+  }
+
   render() {
     return (
       <SafeAreaView style={styles.container}>
-      <Text style={styles.welcome}>Iniciando o Mines!!!</Text>
-      <Text style={styles.welcome}>Tamanho da grade:
-         {params.getRowsAmount()}x{params.getColumnsAmount()}</Text>
-        <Field />
-        <Field open nearMines={1} />
-        <Field open nearMines={2} />
-        <Field open nearMines={3} />
-        <Field open nearMines={6} />
-        <Field mined />
-        <Field mined open />
-        <Field mined open exploded />
-        <Field flagged />
-        <Field flagged open />
+        <Text style={styles.welcome}>Iniciando o Mines!!!</Text>
+        <Text style={styles.welcome}>Tamanho da grade:
+          {params.getRowsAmount()}x{params.getColumnsAmount()}</Text>
+        <View style={styles.board}>
+          <MineField board={this.state.board} />
+        </View>
       </SafeAreaView>
     );
   }
@@ -33,13 +52,10 @@ export default class App extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    justifyContent: 'flex-end',
   },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
+  board: {
+    alignItems: 'center',
+    backgroundColor: '#AAA',
   }
 })
