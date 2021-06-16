@@ -95,9 +95,14 @@ const pending = field =>
   (field.mined && !field.flagged) || (!field.mined && !field.open);
 const wonGame = board => fields(board).filter(pending).length === 0;
 const showMines = board =>
-  field(board)
+  fields(board)
     .filter(field => field.mined)
     .forEach(field => (field.open = true));
+
+const invertFlag = (board, row, column) => {
+  const field = board[row][column]
+  field.flagged = !field.flagged
+}
 
 export {
   createMinedBoard,
